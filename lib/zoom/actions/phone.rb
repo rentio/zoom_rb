@@ -5,11 +5,9 @@ module Zoom
     module Phone
       extend Zoom::Actions
 
-      get 'call_logs', '/phone/users/:user_id/call_logs'
+      get 'phone_call_history', '/phone/call_history', permit: %i[page_size from to next_page_token]
 
-      get 'phone_call_logs', '/phone/call_logs', permit: %i[page_size from to next_page_token]
-
-      get 'phone_call_log_detail', '/phone/call_logs/:call_log_id'
+      get 'phone_call_history_detail', '/phone/call_history/:call_log_id'
 
       get 'phone_users_list', '/phone/users'
 
