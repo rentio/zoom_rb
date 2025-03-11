@@ -13,7 +13,7 @@ module Zoom
       post 'meeting_create', '/users/:user_id/meetings',
         permit: %i[
           topic type start_time duration schedule_for timezone password default_password agenda tracking_fields
-          recurrence settings template_id
+          recurrence settings template_id pre_schedule waiting_room
         ]
 
       # Get a meeting on Zoom via meeting ID, return the meeting info.
@@ -49,6 +49,12 @@ module Zoom
           language occurrence_ids auto_approve
         ]
 
+      # Get a meeting registrant
+      get 'meeting_get_registrant', '/meetings/:meeting_id/registrants/:registrant_id'
+
+      # Delete a meeting registrant.
+      delete 'meeting_delete_registrant', '/meetings/:meeting_id/registrants/:registrant_id'
+
       # Register up to 30 registrants at once for a meeting that requires registration.
       post 'batch_registrants', '/meetings/:meeting_id/batch_registrants',
         permit: %i[registrants auto_approve registrants_confirmation_email]
@@ -75,6 +81,12 @@ module Zoom
 
       # Get a meeting on Zoom via meeting ID, return the meeting info.
       get 'meeting_invitation', '/meetings/:meeting_id/invitation'
+
+      # Support for meeting surveys
+      # https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/meetingSurveyGet
+      get "meeting_survey", "/meetings/:meeting_id/survey"
+      delete "meeting_delete_survey", "/meetings/:meeting_id/survey"
+      patch "meeting_update_survey", "/meetings/:meeting_id/survey"
     end
   end
 end
